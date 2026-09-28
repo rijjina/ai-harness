@@ -63,7 +63,7 @@ if ($have) { Write-Host "already installed" } else { Run 'npm install' { npm ins
 Step 'teamai init (user scope, Claude Code + Codex)'
 foreach ($d in '.claude', '.codex') { New-Item -ItemType Directory -Force (Join-Path $HOME $d) -ErrorAction Stop | Out-Null }
 if (Test-Path (Join-Path $HOME '.teamai\config.yaml')) { Write-Host "already initialized" }
-else { Run 'teamai init' { teamai init $RepoUrl --scope user --agent claude,codex } }
+else { Run 'teamai init' { teamai init $RepoUrl --scope user --agent claude,codex --force } }
 Run 'teamai pull' { teamai pull }
 Push-Location $Harness; Run 'git pull' { git pull --rebase }; Pop-Location   # get teamai.yaml etc. created by init
 
