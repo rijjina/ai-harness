@@ -53,6 +53,8 @@ try {
   if ($LASTEXITCODE -ne 0) { Run 'git commit' { git commit -m 'Initial harness: skills, rules, docs' } }
   if (-not (git remote)) { Run 'git remote add' { git remote add origin $RepoUrl } }
   Run 'git branch -M main' { git branch -M main }
+  git ls-remote --exit-code --heads origin main | Out-Null
+  if ($LASTEXITCODE -eq 0) { Run 'git pull --rebase (merge commits teamai made on GitHub)' { git pull --rebase --autostash origin main } }
   Run "git push (sign in to GitHub if a window opens)" { git push -u origin main }
 } finally { Pop-Location }
 
