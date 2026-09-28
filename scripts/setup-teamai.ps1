@@ -3,7 +3,7 @@ One-time setup on Windows (safe to re-run; finished steps are skipped):
   1. push D:\AI\harness to your GitHub repo
   2. install teamai-cli and init it (user scope) for Claude Code + Codex
   3. junction the harness into the Obsidian vault as <vault>\TeamAI
-  4. link skills for Antigravity and write the rules blocks
+  4. register the harness as an Antigravity plugin and write the Codex rules block
 Usage:
   powershell -ExecutionPolicy Bypass -File D:\AI\harness\scripts\setup-teamai.ps1 -RepoUrl https://github.com/rijjina/ai-harness.git
 #>
@@ -65,7 +65,7 @@ if ($have) { Write-Host "already installed" } else { Run 'npm install' { npm ins
 Step 'teamai init (user scope, Claude Code + Codex)'
 foreach ($d in '.claude', '.codex') { New-Item -ItemType Directory -Force (Join-Path $HOME $d) -ErrorAction Stop | Out-Null }
 if (Test-Path (Join-Path $HOME '.teamai\config.yaml')) { Write-Host "already initialized" }
-else { Run 'teamai init' { teamai init $RepoUrl --scope user --agent claude,codex --force } }
+else { Run 'teamai init' { teamai init $RepoUrl --scope user --agent claude --agent codex --force } }
 Run 'teamai pull' { teamai pull }
 Push-Location $Harness; Run 'git pull' { git pull --rebase }; Pop-Location   # get teamai.yaml etc. created by init
 
@@ -75,17 +75,21 @@ if (Test-Path $link) { Write-Host "exists, leaving as is: $link" }
 else { New-Item -ItemType Junction -Path $link -Target $Harness -ErrorAction Stop | Out-Null; Write-Host "junction: $link -> $Harness" }
 
 if (-not $SkipAntigravity) {
-  Step 'Antigravity: skills link'
-  $agSkills = Join-Path $HOME '.gemini\antigravity\skills'
-  if (Test-Path $agSkills) { Write-Host "exists, leaving as is: $agSkills" }
+  Step 'Antigravity: register the harness as a plugin (skills + rules)'
+  $cfg = Join-Path $HOME '.gemini\config'
+  $pj = Join-Path $cfg 'plugins.json'
+  if (-not (Test-Path $cfg)) { Write-Host "skip: $cfg not found (Antigravity not installed?)" }
+  elseif (Test-Path $pj) { Write-Host "exists, leaving as is: $pj" }
   else {
-    New-Item -ItemType Directory -Force (Split-Path -Parent $agSkills) -ErrorAction Stop | Out-Null
-    New-Item -ItemType Junction -Path $agSkills -Target (Join-Path $Harness 'skills') -ErrorAction Stop | Out-Null
-    Write-Host "junction: $agSkills -> $Harness\skills  (verify Antigravity lists the skills)"
+    $root = (Split-Path -Parent $Harness) -replace '\\', '/'
+    $leaf = Split-Path -Leaf $Harness
+    $json = "{`n  `"entries`": [`n    { `"path`": `"$root`", `"include_only`": [`"$leaf`"] }`n  ]`n}`n"
+    [IO.File]::WriteAllText($pj, $json, (New-Object System.Text.UTF8Encoding $false))
+    Write-Host "wrote $pj"
   }
 }
 
-Step 'Rules blocks for Codex / Antigravity'
+Step 'Rules block for Codex'
 & (Join-Path $PSScriptRoot 'rules-block.ps1') -Harness $Harness
 
 Step 'teamai doctor'

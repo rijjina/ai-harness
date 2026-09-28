@@ -1,6 +1,6 @@
 # Writes harness rules into agents that teamai cannot reach natively:
 #   Codex       -> ~/.codex/AGENTS.md   (Codex reads AGENTS.md, not .codex/rules/*.md)
-#   Antigravity -> ~/.gemini/GEMINI.md  (global rules file)
+#   (Antigravity gets rules + skills from the harness itself as a plugin: plugin.json + ~/.gemini/config/plugins.json)
 # Content between the markers is replaced on every run; the rest of each file is kept.
 param([string]$Harness = (Split-Path -Parent $PSScriptRoot))
 
@@ -11,8 +11,7 @@ $rules = Get-ChildItem -Path (Join-Path $Harness 'rules') -Filter *.md | Sort-Ob
 $block = "$start`r`n<!-- generated from $Harness\rules - edit there, not here -->`r`n`r`n" + ($rules -join "`r`n`r`n") + "`r`n$end"
 
 $targets = @(
-  (Join-Path $HOME '.codex\AGENTS.md'),
-  (Join-Path $HOME '.gemini\GEMINI.md')
+  (Join-Path $HOME '.codex\AGENTS.md')
 )
 foreach ($t in $targets) {
   $dir = Split-Path -Parent $t
