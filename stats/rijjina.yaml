@@ -1,16 +1,16 @@
 username: rijjina
-updatedAt: 2026-11-16T04:23:42.429Z
+updatedAt: 2026-11-16T12:01:11.585Z
 skills: {}
 interventions:
-  sessions: 29
+  sessions: 30
   interrupt: 0
   toolReject: 0
   correction: 0
-prompts: 27
+prompts: 29
 tokens:
-  input: 10
-  output: 115102
-  cacheRead: 36308
+  input: 919037
+  output: 234484
+  cacheRead: 103042644
   cacheCreation: 459066
 daily:
   2026-10-02:
@@ -93,31 +93,33 @@ daily:
     promptTurns: 10
     durationMs: 371900
     sessionsCorrected: 0
-    pricedRequests: 0
-    costMicros: 0
+    pricedRequests: 444
+    costMicros: 17050808
     cacheReadTokens: 0
     cacheEligibleInputTokens: 0
+    priceVersion: litellm-2026-10-31-b264711
   2026-11-16:
-    sessionsEnded: 1
-    sessionsSucceeded: 1
-    promptTurns: 1
-    durationMs: 29607
+    sessionsEnded: 2
+    sessionsSucceeded: 2
+    promptTurns: 3
+    durationMs: 951950
     sessionsCorrected: 0
-    pricedRequests: 0
-    costMicros: 0
-    cacheReadTokens: 0
-    cacheEligibleInputTokens: 0
+    pricedRequests: 63
+    costMicros: 1828373
+    cacheReadTokens: 103006336
+    cacheEligibleInputTokens: 103925363
+    priceVersion: litellm-2026-10-31-b264711
 attended:
   interventions:
-    sessions: 10
+    sessions: 11
     interrupt: 0
     toolReject: 0
     correction: 0
-  prompts: 10
+  prompts: 12
   tokens:
-    input: 0
-    output: 0
-    cacheRead: 0
+    input: 919027
+    output: 119382
+    cacheRead: 103006336
     cacheCreation: 0
   daily:
     2026-11-15:
@@ -126,27 +128,29 @@ attended:
       promptTurns: 7
       durationMs: 236597
       sessionsCorrected: 0
-      pricedRequests: 0
-      costMicros: 0
+      pricedRequests: 444
+      costMicros: 17050808
       cacheReadTokens: 0
       cacheEligibleInputTokens: 0
+      priceVersion: litellm-2026-10-31-b264711
     2026-11-16:
-      sessionsEnded: 1
-      sessionsSucceeded: 1
-      promptTurns: 1
-      durationMs: 29607
+      sessionsEnded: 2
+      sessionsSucceeded: 2
+      promptTurns: 3
+      durationMs: 951950
       sessionsCorrected: 0
-      pricedRequests: 0
-      costMicros: 0
-      cacheReadTokens: 0
-      cacheEligibleInputTokens: 0
+      pricedRequests: 63
+      costMicros: 1828373
+      cacheReadTokens: 103006336
+      cacheEligibleInputTokens: 103925363
+      priceVersion: litellm-2026-10-31-b264711
 outcomes:
   attended:
     none:
-      sessions: 7
+      sessions: 10
       tokens:
-        input: 0
-        output: 0
+        input: 919027
+        output: 119382
       interventions: 0
   notRecorded:
     none:
